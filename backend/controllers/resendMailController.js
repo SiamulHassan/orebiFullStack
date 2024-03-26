@@ -11,8 +11,10 @@ const resendMailController = async (req, res) => {
     if (isValidMail) {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        // syeam45@gmail.com
         sendMail(email);
+        res.status(200).json({
+          status: "success",
+        });
       } else {
         throw new Error("No user found with the provided email");
       }

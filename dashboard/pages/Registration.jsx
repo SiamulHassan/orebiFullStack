@@ -39,14 +39,17 @@ const Registration = () => {
   const handleResend = async () => {
     if (!resendMail) return;
     try {
-      console.log("something");
-      await axios.post("http://localhost:8000/api/v1/auth/resendMail", {
-        email: resendMail,
-      });
-      setTimeout(() => {
+      const { data } = await axios.post(
+        "http://localhost:8000/api/v1/auth/resendMail",
+        {
+          email: resendMail,
+        }
+      );
+
+      if (data.status === "success") {
         setMsg("Verification link was resent, check mail");
         setOpen(false);
-      }, 3000);
+      }
     } catch (error) {
       setMsg(error.response.data.message);
       setOpen(false);
@@ -54,13 +57,13 @@ const Registration = () => {
     }
   };
 
-  const handleCancel = () => {
-    setOpen(false);
-  };
   return (
     <>
       {msg && (
-        <Space direction="vertical" style={{ width: "50%" }}>
+        <Space
+          direction="vertical"
+          style={{ width: "15%", margin: "10px", marginLeft: "40%" }}
+        >
           <Alert message={msg} type="success" closable />
         </Space>
       )}
@@ -140,7 +143,6 @@ const Registration = () => {
             <Modal
               open={open}
               title="Resend Verification Link"
-              onCancel={handleCancel}
               footer={() => (
                 <>
                   <Button onClick={handleResend}>Send</Button>
