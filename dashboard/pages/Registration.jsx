@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import axios from "axios";
 import { Alert, Space } from "antd";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 // import { CloseSquareFilled } from "@ant-design/icons";
 const Registration = () => {
+  const [open, setOpen] = useState(false);
+  const [resendMail, setResendMail] = useState("");
   const [loading, isLoading] = useState(false);
   const [msg, setMsg] = useState();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
       isLoading(true);
@@ -22,11 +24,6 @@ const Registration = () => {
       // isLoading(false);
       setMsg("Registration done check mail for opt verification");
       console.log("data::", data);
-      setTimeout(() => {
-        // go email verify page
-        // go otp verify page
-        // navigate(`/optVerify/${values.email}`);
-      }, 2000);
       // navigate(`/optVerify/${values.email}`);
     } catch (error) {
       ///console.log("err:", error.message);
@@ -35,6 +32,31 @@ const Registration = () => {
     }
   };
 
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleResend = async () => {
+    if (!resendMail) return;
+    try {
+      console.log("something");
+      await axios.post("http://localhost:8000/api/v1/auth/resendMail", {
+        email: resendMail,
+      });
+      setTimeout(() => {
+        setMsg("Verification link was resent, check mail");
+        setOpen(false);
+      }, 3000);
+    } catch (error) {
+      setMsg(error.response.data.message);
+      setOpen(false);
+      // console.log("err:", error.response.data.message);
+    }
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
   return (
     <>
       {msg && (
@@ -103,14 +125,45 @@ const Registration = () => {
             span: 16,
           }}
         >
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={loading}
-            disabled={loading}
-          >
-            Submit
-          </Button>
+          <Space>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              disabled={loading}
+            >
+              Submit
+            </Button>
+            <Button type="default" onClick={showModal}>
+              Resend
+            </Button>
+            <Modal
+              open={open}
+              title="Resend Verification Link"
+              onCancel={handleCancel}
+              footer={() => (
+                <>
+                  <Button onClick={handleResend}>Send</Button>
+                </>
+              )}
+            >
+              <Form.Item
+                label="Email"
+                name="resendEmail"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your email!",
+                  },
+                ]}
+              >
+                <Input
+                  value={resendMail}
+                  onChange={(e) => setResendMail(e.target.value)}
+                />
+              </Form.Item>
+            </Modal>
+          </Space>
         </Form.Item>
       </Form>
     </>
