@@ -7,6 +7,7 @@ import EmailVerify from "../pages/EmailVerify";
 import AddCategory from "../pages/AddCategory";
 import AddSubCategory from "../pages/AddSubCategory";
 import ViewCategory from "../pages/ViewCategory";
+import ViewSubCategory from "../pages/ViewSubCategory";
 function App() {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ function App() {
           <Route path="addcategory" element={<AddCategory />} />
           <Route path="addsubcategory" element={<AddSubCategory />} />
           <Route path="viewcategory" element={<ViewCategory />} />
+          <Route path="viewsubcategory" element={<ViewSubCategory />} />
         </Route>
       </Routes>
     </BrowserRouter>

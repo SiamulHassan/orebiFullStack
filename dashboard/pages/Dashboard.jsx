@@ -30,7 +30,7 @@ const Dashboard = () => {
       getItem("Add Category", "/dashboard/addcategory"),
       getItem("View Category", "/dashboard/viewcategory"),
       getItem("Add Sub Category", "/dashboard/addsubcategory"),
-      getItem("View Sub Category", "8"),
+      getItem("View Sub Category", "/dashboard/viewsubcategory"),
     ]),
     getItem("Discount", "sub4", <SettingOutlined />, [
       getItem("Add Discount", "9"),
