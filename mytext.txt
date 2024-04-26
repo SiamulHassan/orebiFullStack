@@ -1,0 +1,30 @@
+// creating category
+akta input field thakbe , sekhane cate. name diye cate. create korbo. but same name, empty field, cate. active kora after creation - aigula handle kora lagbe.
+
+
+
+// when to create a model
+jokhon e frontend e form niye kaj korbo tokhon e form er field onujayi model field create kora lagbe
+
+// MongoDb object Id
+const subCate = new Schema({
+    name: String,
+    status: {
+    type: String,
+    enum:['approve', ...]
+    default: "waiting;
+    },
+    categoryId: {
+    type: Schema.Types.ObjectId
+    ref: "Category"
+    }
+})
+
+akhane sub category te ref holo tar parent "Category" model ba collection. ar type e " Schema.Types.ObjectId " ata mongoDb te je collection create hocche tar ID ke dhorbe, jar ref holo Category orthat Category collection er id hobe sub cate. er ID.
+
+ate subidha holo amar joto collection thakuk sob check na hoye direct category te giye id ke dhorbe.
+
+/// get route for same to get all sub cat
+subcaegory.find().populate('categoryId')
+
+///// also shw category

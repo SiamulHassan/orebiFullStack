@@ -45,18 +45,23 @@ const Registration = () => {
           email: resendMail,
         }
       );
-
+      console.log(data.status === "success");
       if (data.status === "success") {
         setMsg("Verification link was resent, check mail");
         setOpen(false);
       }
+      // setTimeout(() => {
+      //   setOpen(false);
+      // }, 1500);
     } catch (error) {
       setMsg(error.response.data.message);
       setOpen(false);
       // console.log("err:", error.response.data.message);
     }
   };
-
+  function handleCancel() {
+    setOpen(false);
+  }
   return (
     <>
       {msg && (
@@ -143,6 +148,7 @@ const Registration = () => {
             <Modal
               open={open}
               title="Resend Verification Link"
+              onCancel={handleCancel}
               footer={() => (
                 <>
                   <Button onClick={handleResend}>Send</Button>

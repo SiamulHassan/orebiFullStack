@@ -6,5 +6,6 @@ function validateMail(email) {
   if (!validateResult) return false;
 
   return true;
+  // te
 }
 module.exports = validateMail;
